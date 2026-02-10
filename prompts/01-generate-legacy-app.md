@@ -1,9 +1,5 @@
 # Step 1: レガシーアプリ生成 — プロンプト例
 
-> **事前に確認してください:**
-> - `.github/copilot-instructions.md` — プロジェクト全体の背景と共通規約
-> - `.github/instructions/step1-generate-legacy.md` — このステップ用の詳細ガイドライン
-
 このステップでは、Copilot Chat を使ってレガシー言語のアプリケーションを自動生成します。
 言語やアプリの題材は **自由に指定できます**。以下を参考に、自身の選択で Copilot に指示を出してください。
 
