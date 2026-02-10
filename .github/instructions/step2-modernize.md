@@ -36,6 +36,15 @@ applyTo: "workspace/modern/work/**"
 | Go | testing パッケージ |
 | C# | xUnit / NUnit |
 
+### 🐍 Python の場合：仮想環境の使用（必須）
+
+Python でモダナイズする場合、**必ず仮想環境（venv）を作成して使用すること**。
+
+仮想環境を使用する理由：
+- システムの Python 環境を汚染しない
+- プロジェクトごとに依存関係を分離
+- 再現性のある環境構築が可能
+
 ---
 
 ## 移行方針
@@ -49,14 +58,45 @@ applyTo: "workspace/modern/work/**"
 
 ## 出力先・ディレクトリ構成
 
+**言語ごとにサブディレクトリを作成すること。**
+
+初期状態では `workspace/modern/work/` までが存在し、モダナイズ依頼時に言語ディレクトリを作成する。
+
 ```
 workspace/modern/work/
-├── src/               # ソースコード
-├── tests/             # テストコード
-├── data/              # サンプルデータファイル（レガシーからコピー/変換）
-└── docs/
-    └── how-to-run.md  # 実行手順・テスト手順
+├── python/            # Python でモダナイズする場合
+│   ├── src/
+│   ├── tests/
+│   ├── data/
+│   ├── docs/
+│   └── .venv/         # Python 仮想環境
+├── typescript/        # TypeScript でモダナイズする場合
+│   ├── src/
+│   ├── tests/
+│   ├── data/
+│   └── docs/
+├── java/              # Java でモダナイズする場合
+│   ├── src/main/java/
+│   ├── src/test/java/
+│   ├── data/
+│   └── docs/
+├── csharp/            # C# でモダナイズする場合
+└── go/                # Go でモダナイズする場合
 ```
+
+### 言語別の出力先ルール
+
+| 言語 | 出力先 | ソース | テスト | データ | ドキュメント |
+|------|--------|--------|--------|--------|--------------|
+| Python | `work/python/` | `src/` | `tests/` | `data/` | `docs/` |
+| TypeScript | `work/typescript/` | `src/` | `tests/` | `data/` | `docs/` |
+| Java | `work/java/` | `src/main/java/` | `src/test/java/` | `data/` | `docs/` |
+| C# | `work/csharp/` | `src/` | `tests/` | `data/` | `docs/` |
+| Go | `work/go/` | `./` または `internal/` | `./*_test.go` | `data/` | `docs/` |
+
+**共通ルール:**
+- `data/` — レガシーからコピー/変換したサンプルデータファイル（CSV 等）
+- `docs/how-to-run.md` — 実行手順・テスト手順（必須）
 
 ---
 
@@ -84,9 +124,9 @@ workspace/modern/work/
 
 ## チェックリスト
 
-- [ ] `workspace/modern/work/tests/` にテストコードが存在
-- [ ] `workspace/modern/work/src/` にモダン言語コードが存在
+- [ ] `workspace/modern/work/<言語名>/` ディレクトリが作成されている
+- [ ] 出力先ルールに従ってディレクトリやファイルが存在している。
 - [ ] **テストが全てパスしている**
-- [ ] `workspace/modern/work/docs/how-to-run.md` にテスト・実行手順が記載
+- [ ] `how-to-run.md` にテスト・実行手順が記載
 - [ ] レガシー版と同じサンプルデータで同じ結果が得られる
 - [ ] ソースコードに日本語コメントが含まれている

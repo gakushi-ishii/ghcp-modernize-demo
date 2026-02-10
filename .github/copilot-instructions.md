@@ -111,16 +111,18 @@ VBScript で給与計算システムを作成してください。
 
 `prompts/02-modernize-app.md` を参考に、Copilot に指示を出す。
 
+**出力先は言語ごとにサブディレクトリを分ける（例: `work/python/`, `work/java/`）。**
+
 例（サンプルを使う場合）:
 ```
 workspace/legacy/example/ の VBScript プログラムを Python にモダナイズしてください。
-成果物は workspace/modern/work/ に配置してください。
+成果物は workspace/modern/work/python/ に配置してください。
 ```
 
 例（Step 1 で生成したアプリを使う場合）:
 ```
 workspace/legacy/work/ の VBScript プログラムを Java にモダナイズしてください。
-成果物は workspace/modern/work/ に配置してください。
+成果物は workspace/modern/work/java/ に配置してください。
 ```
 
 ---
