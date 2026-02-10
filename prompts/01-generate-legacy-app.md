@@ -70,7 +70,8 @@ Perl で顧客管理システムを作成してください。
 - [ ] `workspace/legacy/docs/how-to-run.md` が生成されているか
 - [ ] `workspace/legacy/docs/specification.md` が生成されているか
 - [ ] `workspace/legacy/data/` にサンプルデータが含まれているか
-- [ ] 動作確認手順に従ってアプリが正常に動作するか
+- [ ] ソースコードに日本語コメントが含まれているか
+- [ ] 動作確認ができているか（言語別の対応は [README.md](../README.md#動作確認環境について) を参照）
 
 ---
 

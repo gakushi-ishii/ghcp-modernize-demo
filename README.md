@@ -42,6 +42,38 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 - [GitHub Copilot](https://github.com/features/copilot) の拡張機能が有効
 - GitHub Copilot Chat が利用可能
 
+### 動作確認環境について
+
+> **❗ このデモは Windows OS（WSL なし）を前提としています。**
+
+レガシー言語は実行環境が限られるため、Copilot Agent が自動で動作確認できる言語とできない言語があります。
+
+#### ✅ Agent が動作確認**可能**な言語（Windows 標準環境）
+
+以下の言語は Windows に標準搭載のランタイムで実行可能なため、Agent が自動で動作確認を試みます：
+
+| 言語 | 実行コマンド | ランタイム |
+|------|------------|----------|
+| **VBScript** | `cscript //NoLogo script.vbs` | Windows 標準 (`cscript.exe`) |
+| **Batch Script** | `script.bat` | Windows 標準 (`cmd.exe`) |
+| **JScript** | `cscript //NoLogo script.js` | Windows 標準 (`cscript.exe`) |
+| **PowerShell** | `powershell -File script.ps1` | Windows 標準 (`powershell.exe`) |
+
+#### ⚠️ Agent が動作確認**困難**な言語（追加インストールが必要）
+
+以下の言語は追加のランタイム/コンパイラが必要なため、動作確認はスキップされます：
+
+| 言語 | 必要な環境 |
+|------|----------|
+| **COBOL** | GnuCOBOL (`cobc`) |
+| **VB6** | VB6 IDE/ランタイム |
+| **FORTRAN** | gfortran |
+| **Perl** | Strawberry Perl 等 |
+| **RPG** | IBM i 環境 |
+| **PL/I** | 専用コンパイラ |
+
+> 💡 動作確認できない言語の場合、Agent は構文チェック・ドキュメント検証・データ整合性確認を代替で実施します。
+
 ### Step 0: 準備
 
 1. このリポジトリをクローン（またはフォーク）します：
