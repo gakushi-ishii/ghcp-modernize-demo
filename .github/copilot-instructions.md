@@ -75,6 +75,50 @@ Step 2: モダナイズ（TDD ガードレール）
 - **型ヒント・型注釈** を使用（言語が対応している場合）
 - **命名規則・インデント** は言語の標準に従う
 
+### ⚠️ 文字エンコーディング（重要）
+
+Windows 環境でレガシー言語を扱う際、**文字エンコーディングの不一致** が動作エラーの主要な原因となります。
+
+#### エンコーディング要件
+
+| 言語 | 必要なエンコーディング | 理由 |
+|------|------------------------|------|
+| VBScript | **Shift-JIS** | cscript.exe が Shift-JIS を期待 |
+| JScript | **Shift-JIS** | cscript.exe が Shift-JIS を期待 |
+| Batch Script | **Shift-JIS** | cmd.exe が Shift-JIS を期待 |
+| PowerShell | UTF-8 / Shift-JIS | 両対応（UTF-8 推奨） |
+| Python | **UTF-8** | # -*- coding: utf-8 -*- を推奨 |
+| Java / C# / Go | **UTF-8** | モダン言語は UTF-8 が標準 |
+
+#### 問題の原因
+
+VS Code のファイル作成ツール（`create_file` 等）は **デフォルトで UTF-8** を使用します。
+しかし、VBScript などのレガシー言語は **Shift-JIS** を期待するため、日本語を含むファイルで「文字が正しくありません」エラーが発生します。
+
+#### 解決方法：Shift-JIS でファイルを保存する
+
+レガシー言語（VBScript, JScript, Batch）で日本語を使用する場合は、以下の PowerShell コマンドでファイルを保存してください：
+
+```powershell
+# Shift-JIS エンコーディングで保存
+$enc = [System.Text.Encoding]::GetEncoding("shift_jis")
+[System.IO.File]::WriteAllText("ファイルパス", $content, $enc)
+```
+
+#### 実装時のガードレール
+
+1. **レガシー言語で日本語を使用する場合**
+   - `create_file` ツールでファイルを作成した後、PowerShell で Shift-JIS に変換する
+   - または、最初から PowerShell の `WriteAllText` で Shift-JIS 保存する
+
+2. **CSV などのデータファイル**
+   - レガシー言語から読み込む CSV も Shift-JIS で保存する
+   - モダン言語から読み込む CSV は UTF-8 で保存する
+
+3. **動作確認前のチェック**
+   - 日本語を含むファイルでエラーが出た場合、まずエンコーディングを疑う
+   - PowerShell で `Get-Content -Encoding Default` で読み込みテスト
+
 ## Copilot との使い方
 
 ### Step 1: レガシーアプリ生成
@@ -118,9 +162,9 @@ Step 2: モダナイズ（TDD ガードレール）
 
 #### ✅ エージェントが動作確認**可能**（Windows 標準環境）
 以下の言語は Windows に標準搭載のランタイムで実行可能です：
-- **VBScript** — `cscript.exe` で実行（Windows 標準）
-- **Batch Script (.bat/.cmd)** — `cmd.exe` で実行（Windows 標準）
-- **JScript** — `cscript.exe` で実行（Windows 標準）
+- **VBScript** — `cscript.exe` で実行（Windows 標準）⚠️ **Shift-JIS 必須**
+- **Batch Script (.bat/.cmd)** — `cmd.exe` で実行（Windows 標準）⚠️ **Shift-JIS 必須**
+- **JScript** — `cscript.exe` で実行（Windows 標準）⚠️ **Shift-JIS 必須**
 - **PowerShell** — `powershell.exe` で実行（Windows 標準）
 
 #### ⚠️ エージェントが動作確認**困難**（追加インストールが必要）
@@ -149,6 +193,9 @@ Step 2: モダナイズ（TDD ガードレール）
 - [ ] `workspace/legacy/docs/how-to-run.md` に実行手順が記載されている
 - [ ] `workspace/legacy/docs/specification.md` に仕様が記載されている
 - [ ] `workspace/legacy/data/` にサンプルデータが含まれている
+- [ ] **エンコーディング確認**（VBScript/JScript/Batch の場合）：
+  - ソースコードが Shift-JIS で保存されている
+  - CSV などのデータファイルも Shift-JIS で保存されている
 - [ ] 動作確認（以下のいずれか）：
   - ✅ 実行可能な言語：実際にコマンドを実行して確認
   - ⚠️ 実行困難な言語：構文・ドキュメント・データ整合性を検証
