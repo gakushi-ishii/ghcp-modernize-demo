@@ -11,6 +11,8 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 | **Step 1** | レガシーアプリを生成 | 言語・題材を指示してアプリを自動生成 |
 | **Step 2** | TDD でモダナイズ | カスタムインストラクション（ガードレール）に従い、テスト駆動で移行 |
 
+> 💡 **Step 2（モダナイズ）だけ試したい場合**は Step 1 をスキップして、`workspace/legacy/example/` の VBScript サンプルを使えます。
+
 ## 📁 リポジトリ構成
 
 ```
@@ -19,17 +21,17 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 ├── .github/
 │   ├── copilot-instructions.md            # プロジェクト共通のカスタムインストラクション
 │   └── instructions/
-│       ├── step1-generate-legacy.md       # Step 1 用ガードレール（workspace/legacy/** に自動適用）
-│       └── step2-modernize.md             # Step 2 用ガードレール（workspace/modern/** に自動適用）
+│       ├── step1-generate-legacy.md       # Step 1 用ガードレール
+│       └── step2-modernize.md             # Step 2 用ガードレール
 ├── prompts/                               # Copilot に投げるプロンプト例
 │   ├── 01-generate-legacy-app.md
 │   └── 02-modernize-app.md
-├── example/                               # 完成サンプル（COBOL → Python）
-│   ├── legacy/                            # レガシー版（COBOL 在庫管理）
-│   └── modern/                            # モダン版（Python 在庫管理 + テスト）
-└── workspace/                             # ★ あなたの作業ディレクトリ
-    ├── legacy/                            # Step 1 の成果物をここに生成
-    └── modern/                            # Step 2 の成果物をここに生成
+└── workspace/                             # ★ エージェントの作業ディレクトリ
+    ├── legacy/
+    │   ├── example/                       # VBScript 在庫管理サンプル（Step 2 から始める用）
+    │   └── work/                          # Step 1 の成果物をここに生成
+    └── modern/
+        └── work/                          # Step 2 の成果物をここに生成
 ```
 
 ---
@@ -108,6 +110,8 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 
 ### Step 1: レガシーアプリの生成
 
+> 💡 **Step 2 だけ試したい場合はスキップ可能** — `workspace/legacy/example/` の VBScript サンプルを使えます。
+
 1. **Copilot にレガシーアプリの生成を依頼する**
 
    Copilot Chat（Agent モード推奨）を開き、プロンプト例を参考にレガシーアプリの生成を依頼します。
@@ -116,12 +120,12 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 
    例：
    ```
-   COBOL で在庫管理システムを workspace/legacy/ に作成してください。
+   VBScript で在庫管理システムを workspace/legacy/work/ に作成してください。
    ```
 
 2. **動作確認**
 
-   Copilot が `workspace/legacy/docs/how-to-run.md` に動作確認手順を生成するので、それに従って動作を確認します。
+   Copilot が `workspace/legacy/work/docs/how-to-run.md` に動作確認手順を生成するので、それに従って動作を確認します。
 
 ### Step 2: TDD でモダナイズ
 
@@ -131,16 +135,22 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 
    > 📝 プロンプト例は [prompts/02-modernize-app.md](prompts/02-modernize-app.md) を参照
 
-   例：
+   例（サンプルを使う場合）：
    ```
-   workspace/legacy/ の COBOL プログラムを Python にモダナイズしてください。
-   成果物は workspace/modern/ に配置してください。
+   workspace/legacy/example/ の VBScript プログラムを Python にモダナイズしてください。
+   成果物は workspace/modern/work/ に配置してください。
+   ```
+
+   例（Step 1 で生成したアプリを使う場合）：
+   ```
+   workspace/legacy/work/ の VBScript プログラムを Python にモダナイズしてください。
+   成果物は workspace/modern/work/ に配置してください。
    ```
 
 2. **テストの実行・動作確認**
 
    カスタムインストラクションにより、Copilot は **テストを先に作成** します。
-   `workspace/modern/docs/how-to-run.md` に従ってテストと動作確認を行います。
+   `workspace/modern/work/docs/how-to-run.md` に従ってテストと動作確認を行います。
 
 ---
 
@@ -165,14 +175,16 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
 - `useInstructionFiles` を `false` に設定して OFF にする
 ---
 
-## 📦 サンプル（example/）
+## 📦 サンプル（workspace/legacy/example/）
 
-`example/` ディレクトリには、**COBOL → Python** の在庫管理システムを一例として完成品を配置しています。
+`workspace/legacy/example/` ディレクトリには、**VBScript 在庫管理システム** をサンプルとして配置しています。
 
-- [example/legacy/](example/legacy/) - COBOL 版在庫管理システム
-- [example/modern/](example/modern/) - Python 版在庫管理システム（pytest テスト付き）
+- [workspace/legacy/example/](workspace/legacy/example/) - VBScript 版在庫管理システム
+  - `inventory.vbs` - メインプログラム
+  - `data/` - サンプルデータ（CSV）
+  - `docs/` - 仕様書・実行手順書
 
-デモの参考や、期待される成果物のイメージとしてご利用ください。
+Step 2（モダナイズ）だけ試したい場合は、このサンプルを使用してください。
 
 ---
 

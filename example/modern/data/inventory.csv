@@ -1,6 +1,0 @@
-product_id,product_name,quantity,unit_price,threshold
-PROD001,Notebook PC,150,150000,10
-PROD002,Mouse,500,2500,50
-PROD003,Keyboard,300,4500,30
-PROD004,Monitor,20,35000,5
-PROD005,USB Cable,1000,800,100
