@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.egg
+
+# Output
+workspace/legacy/output/
+workspace/modern/output/
+example/legacy/output/
+example/modern/output/
+
+# IDE
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
