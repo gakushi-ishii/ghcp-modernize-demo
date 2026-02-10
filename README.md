@@ -32,7 +32,13 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
     │   └── work/                          # Step 1 の成果物をここに生成
     └── modern/
         └── work/                          # Step 2 の成果物をここに生成
+            ├── python/                    # Python でモダナイズした場合
+            ├── typescript/                # TypeScript でモダナイズした場合
+            ├── java/                      # Java でモダナイズした場合
+            └── ...                        # その他の言語
 ```
+
+> 💡 **言語ごとにサブディレクトリを分ける**: モダナイズ成果物は `work/python/`, `work/typescript/` のように言語ごとに分離されます。複数言語でのモダナイズ結果を比較できます。
 
 ---
 
@@ -138,19 +144,21 @@ GitHub Copilot を活用して、レガシーコードをモダンな言語・�
    例（サンプルを使う場合）：
    ```
    workspace/legacy/example/ の VBScript プログラムを Python にモダナイズしてください。
-   成果物は workspace/modern/work/ に配置してください。
+   成果物は workspace/modern/work/python/ に配置してください。
    ```
 
    例（Step 1 で生成したアプリを使う場合）：
    ```
-   workspace/legacy/work/ の VBScript プログラムを Python にモダナイズしてください。
-   成果物は workspace/modern/work/ に配置してください。
+   workspace/legacy/work/ の VBScript プログラムを TypeScript にモダナイズしてください。
+   成果物は workspace/modern/work/typescript/ に配置してください。
    ```
+
+   > 💡 **言語ごとにディレクトリが分離される**: 複数言語でモダナイズして結果を比較できます。
 
 2. **テストの実行・動作確認**
 
    カスタムインストラクションにより、Copilot は **テストを先に作成** します。
-   `workspace/modern/work/docs/how-to-run.md` に従ってテストと動作確認を行います。
+   `workspace/modern/work/<言語名>/docs/how-to-run.md` に従ってテストと動作確認を行います。
 
 ---
 
